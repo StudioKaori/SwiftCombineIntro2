@@ -11,7 +11,7 @@ class MyCustomTableCell: UITableViewCell {
   
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource {
   
   private let tableView: UITableView = {
     let table = UITableView()
@@ -19,13 +19,20 @@ class ViewController: UIViewController {
                    forCellReuseIdentifier: "cell")
     
     return table
-  }
+  }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
+    
+    view.addSubview(tableView)
+    tableView.dataSource = self
+    tableView.frame = view.bounds
   }
-
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 10
+  }
 
 }
 
