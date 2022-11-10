@@ -7,7 +7,19 @@
 
 import UIKit
 
+class MyCustomTableCell: UITableViewCell {
+  
+}
+
 class ViewController: UIViewController {
+  
+  private let tableView: UITableView = {
+    let table = UITableView()
+    table.register(MyCustomTableCell.self,
+                   forCellReuseIdentifier: "cell")
+    
+    return table
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
