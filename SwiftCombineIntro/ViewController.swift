@@ -9,10 +9,9 @@ import UIKit
 
 class MyCustomTableCell: UITableViewCell {
   
-  private let button: UIButton = {
+  var button: UIButton = {
     let button = UIButton()
     button.backgroundColor = .systemPink
-    button.setTitle("Button", for: .normal)
     button.setTitleColor(.white, for: .normal)
     return button
   }()
@@ -41,8 +40,6 @@ class MyCustomTableCell: UITableViewCell {
     
     button.frame = CGRect(x: 10, y: 3, width: contentView.frame.size.width-20, height: contentView.frame.size.height-6)
   }
-  
-  
 }
 
 class ViewController: UIViewController, UITableViewDataSource {
@@ -94,11 +91,13 @@ class ViewController: UIViewController, UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MyCustomTableCell else {
       fatalError()
     }
-    //cell.textLabel?.text = models[indexPath.row]
+    cell.button.setTitle(models[indexPath.row], for: .normal)
     
     // .sink() returns observer(Any cancerable)
-    cell.action.sink(receiveValue: { string in
+    // action: this case, it happens when the button is tapped
+    cell.action.sink(receiveValue: { [weak self] string in
       print(string)
+      print("Button pressed \(self?.models[indexPath.row])")
     })
     .store(in: &observers)
     
