@@ -32,6 +32,7 @@ class MyCustomTableCell: UITableViewCell {
   }
   
   @objc private func didTapButton() {
+    button.backgroundColor = .systemBlue
     action.send("Cool! Button was tapped!")
   }
   
