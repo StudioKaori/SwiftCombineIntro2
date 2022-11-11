@@ -11,7 +11,11 @@ import Foundation
 class APICaller {
   static let shared = APICaller()
   
-  func fetchData(completion: ([String]) -> Void) {
-    completion(["Apple"])
+  func fetchCompanies() -> Future<[String], Error> {
+      return Future { promise in
+        DispatchQueue.main.asyncAfter(deadline: .now()+3) {
+          promise(.success(["Apple", "Google", "MicroSoft", "Facebook"]))
+        }
+      }
   }
 }
