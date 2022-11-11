@@ -3,7 +3,7 @@
 //  SwiftCombineIntro
 //
 //  Created by Kaori Persson on 2022-11-10.
-//
+//  Based on this video https://www.youtube.com/watch?v=hbY1KTI0g70
 import Combine
 import UIKit
 
@@ -17,14 +17,23 @@ class MyCustomTableCell: UITableViewCell {
     return button
   }()
   
+  // passthrough subject can happen multiple times while completion happens only onece
+  // ex. user tap the button multiple times
+  let action = PassthroughSubject<String, Never>()
+  
   // want to override the initialiser to add it as subview
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     contentView.addSubview(button)
+    button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
   }
   
   required init?(coder: NSCoder) {
     fatalError()
+  }
+  
+  @objc private func didTapButton() {
+    action.send("Cool! Button was tapped!")
   }
   
   override func layoutSubviews() {
@@ -48,7 +57,7 @@ class ViewController: UIViewController, UITableViewDataSource {
 
   // Need it for combine
   private var models = [String]()
-  var observer: AnyCancellable?
+  var observers: [AnyCancellable] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -58,7 +67,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     tableView.dataSource = self
     tableView.frame = view.bounds
     
-    observer = APICaller.shared.fetchCompanies()
+    APICaller.shared.fetchCompanies()
     // receive the data on the main thread instead of using DispathchQueue.main.async
       .receive(on: DispatchQueue.main)
       .sink(receiveCompletion: { completion in
@@ -73,6 +82,8 @@ class ViewController: UIViewController, UITableViewDataSource {
         // reloadData -> Don't need to wrap with DespatchQueue.main.async because of .receive(on: DispatchQueue.main)
         self?.tableView.reloadData()
       })
+    // .sink returns observer, so store it in observers
+      .store(in: &observers)
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -84,6 +95,13 @@ class ViewController: UIViewController, UITableViewDataSource {
       fatalError()
     }
     //cell.textLabel?.text = models[indexPath.row]
+    
+    // .sink() returns observer(Any cancerable)
+    cell.action.sink(receiveValue: { string in
+      print(string)
+    })
+    .store(in: &observers)
+    
     return cell
   }
 
