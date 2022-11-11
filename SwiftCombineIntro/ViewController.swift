@@ -45,12 +45,13 @@ class ViewController: UIViewController, UITableViewDataSource {
         }
       }, receiveValue: { [weak self] value in
         self?.models = value
+        // reloadData -> Don't need to wrap with DespatchQueue.main.async because of .receive(on: DispatchQueue.main)
         self?.tableView.reloadData()
       })
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
+    return models.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
