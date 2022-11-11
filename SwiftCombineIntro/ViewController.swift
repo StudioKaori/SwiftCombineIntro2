@@ -38,6 +38,8 @@ class ViewController: UIViewController, UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MyCustomTableCell else {
       fatalError()
     }
+    
+    return cell
   }
 
 }
