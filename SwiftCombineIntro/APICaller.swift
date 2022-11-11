@@ -13,6 +13,7 @@ class APICaller {
   
   func fetchCompanies() -> Future<[String], Error> {
       return Future { promise in
+        // Return the result after 3secs
         DispatchQueue.main.asyncAfter(deadline: .now()+3) {
           promise(.success(["Apple", "Google", "MicroSoft", "Facebook"]))
         }

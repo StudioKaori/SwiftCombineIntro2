@@ -58,7 +58,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? MyCustomTableCell else {
       fatalError()
     }
-    
+    cell.textLabel?.text = models[indexPath.row]
     return cell
   }
 
