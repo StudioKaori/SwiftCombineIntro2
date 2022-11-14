@@ -3,7 +3,7 @@
 //  SwiftCombineIntro
 //
 //  Created by Kaori Persson on 2022-11-14.
-//
+//  based on this video https://www.youtube.com/watch?v=RUZcs0SWqnI&t=606s
 
 import SwiftUI
 
@@ -26,6 +26,26 @@ class AdvancedCombineDataService {
 class AdvancedCombineBootcampViewModel: ObservableObject {
   
   @Published var data: [String] = []
+  // You can use 'inject' to reuse dataService to the other place too. See another video
+  let dataService = AdvancedCombineDataService()
+  
+  init() {
+    addSubscribers()
+  }
+  
+  private func addSubscribers() {
+    dataService.$basicPublisher
+      .sink(receiveCompletion: { completion in
+        switch completion {
+        case .finished:
+          print("finished")
+        case .failure(let error):
+          print("Error: \(error)")
+        }
+      }, receiveValue: { [weak self] returnedValue in
+        self?.data = returnedValue
+      })
+  }
   
 }
 
