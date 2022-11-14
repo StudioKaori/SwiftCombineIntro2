@@ -13,7 +13,9 @@ class AdvancedCombineDataService {
   
   // @Published var basicPublisher: String = "first publish"
   // CurrentValueSubject(publisher)<Type, Error>(String) <- initialise it with parenthese, should have a default value
-  let currentValuePublisher = CurrentValueSubject<String, Never>("first publish")
+  //let currentValuePublisher = CurrentValueSubject<String, Never>("first publish")
+  // Works the same way as current one, just passThroughPublisher doesn't need default value
+  let passThroughPublisher = PassthroughSubject<String, Never>()
   
   init() {
     publishFakeData()
@@ -26,7 +28,7 @@ class AdvancedCombineDataService {
       // publishers will stay alive until we cancel them!
       DispatchQueue.main.asyncAfter(deadline: .now() + Double(x)) {
         //self.basicPublisher = items[x]
-        self.currentValuePublisher.send(items[x])
+        self.passThroughPublisher.send(items[x])
       }
     }
   }
@@ -46,8 +48,7 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
   
   private func addSubscribers() {
     // Subscribe publisher
-    //dataService.$basicPublisher
-    dataService.currentValuePublisher
+    dataService.passThroughPublisher
       .sink(receiveCompletion: { completion in
         switch completion {
         case .finished:
