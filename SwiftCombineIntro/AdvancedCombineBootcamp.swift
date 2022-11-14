@@ -22,6 +22,11 @@ class AdvancedCombineDataService {
     for x in items.indices {
       DispatchQueue.main.asyncAfter(deadline: .now() + Double(x)) {
         self.passThroughPublisher.send(items[x])
+        
+        // When reach to the end, send the completion ".finished"
+        if x == items.indices.last {
+          self.passThroughPublisher.send(completion: .finished)
+        }
       }
     }
   }
@@ -43,26 +48,8 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
   private func addSubscribers() {
 
     dataService.passThroughPublisher
-    // Sequence operation
-    // .first() -> only first publisher is coming through to the pipeline
-    //  .first()
-    
-    // You can set a condition, ex. the first Int greater than 4
-    //  .first(where: { $0 > 4 })
-    
-    // If you want to handle the error, use tryFirst
-      .tryFirst(where: { int in
-        if int == 3 {
-          // If throw the error here, you will receive the error in the completion
-          // Look at the switch case .failure
-          throw URLError(.badServerResponse)
-        }
-        return int > 4
-        
-        // If the successful case comes first, the error wouldn't be thrown.
-        // This case, successful case is greater than 1
-        //return int > 1
-      })
+    // When is the last publisher?? -> need completion to know the last publisher
+      .last()
     
     // convert Int to String
       .map({ String($0) })
