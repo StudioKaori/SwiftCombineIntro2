@@ -6,6 +6,7 @@
 //  based on this video https://www.youtube.com/watch?v=RUZcs0SWqnI&t=606s
 
 import SwiftUI
+import Combine
 
 // this class would not to be observable
 class AdvancedCombineDataService {
@@ -29,6 +30,8 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
   // You can use 'inject' to reuse dataService to the other place too. See another video
   let dataService = AdvancedCombineDataService()
   
+  var cancellables = Set<AnyCancellable>()
+  
   init() {
     addSubscribers()
   }
@@ -45,6 +48,7 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
       }, receiveValue: { [weak self] returnedValue in
         self?.data = returnedValue
       })
+      .store(in: &cancellables)
   }
   
 }
@@ -54,7 +58,15 @@ struct AdvancedCombineBootcamp: View {
   @StateObject private var vm = AdvancedCombineBootcampViewModel()
   
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+      ScrollView {
+        VStack {
+          ForEach(vm.data, id: \.self) {
+            Text($0)
+              .font(.largeTitle)
+              .fontWeight(.black)
+          }
+        }
+      }
     }
 }
 
