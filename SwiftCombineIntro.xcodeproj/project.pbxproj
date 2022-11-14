@@ -14,6 +14,7 @@
 		43A0790F291D881500D76D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43A0790E291D881500D76D42 /* Assets.xcassets */; };
 		43A07912291D881500D76D42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43A07910291D881500D76D42 /* LaunchScreen.storyboard */; };
 		43A0791A291E951100D76D42 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A07919291E951100D76D42 /* APICaller.swift */; };
+		43A0791C29224DFD00D76D42 /* AdvancedCombineBootcamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A0791B29224DFD00D76D42 /* AdvancedCombineBootcamp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		43A07911291D881500D76D42 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43A07913291D881500D76D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43A07919291E951100D76D42 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
+		43A0791B29224DFD00D76D42 /* AdvancedCombineBootcamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedCombineBootcamp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				43A07905291D881400D76D42 /* AppDelegate.swift */,
+				43A0791B29224DFD00D76D42 /* AdvancedCombineBootcamp.swift */,
 				43A07907291D881400D76D42 /* SceneDelegate.swift */,
 				43A07909291D881400D76D42 /* ViewController.swift */,
 				43A07919291E951100D76D42 /* APICaller.swift */,
@@ -143,6 +146,7 @@
 			files = (
 				43A0790A291D881400D76D42 /* ViewController.swift in Sources */,
 				43A07906291D881400D76D42 /* AppDelegate.swift in Sources */,
+				43A0791C29224DFD00D76D42 /* AdvancedCombineBootcamp.swift in Sources */,
 				43A07908291D881400D76D42 /* SceneDelegate.swift in Sources */,
 				43A0791A291E951100D76D42 /* APICaller.swift in Sources */,
 			);
