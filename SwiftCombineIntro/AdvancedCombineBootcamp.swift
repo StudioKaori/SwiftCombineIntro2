@@ -8,26 +8,20 @@
 import SwiftUI
 import Combine
 
-// this class would not to be observable
 class AdvancedCombineDataService {
   
-  // @Published var basicPublisher: String = "first publish"
-  // CurrentValueSubject(publisher)<Type, Error>(String) <- initialise it with parenthese, should have a default value
-  //let currentValuePublisher = CurrentValueSubject<String, Never>("first publish")
-  // Works the same way as current one, just passThroughPublisher doesn't need default value
-  let passThroughPublisher = PassthroughSubject<String, Never>()
+  let passThroughPublisher = PassthroughSubject<Int, Never>()
   
   init() {
     publishFakeData()
   }
   
   private func publishFakeData() {
-    let items = ["one", "two", "three"]
+    let items: [Int] = Array(0..<11)
     
     for x in items.indices {
       // publishers will stay alive until we cancel them!
       DispatchQueue.main.asyncAfter(deadline: .now() + Double(x)) {
-        //self.basicPublisher = items[x]
         self.passThroughPublisher.send(items[x])
       }
     }
@@ -37,7 +31,7 @@ class AdvancedCombineDataService {
 class AdvancedCombineBootcampViewModel: ObservableObject {
   
   @Published var data: [String] = []
-  // You can use 'inject' to reuse dataService to the other place too. See another video
+
   let dataService = AdvancedCombineDataService()
   
   var cancellables = Set<AnyCancellable>()
@@ -47,8 +41,10 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
   }
   
   private func addSubscribers() {
-    // Subscribe publisher
+
     dataService.passThroughPublisher
+    // convert Int to String
+      .map({ String($0) })
       .sink(receiveCompletion: { completion in
         switch completion {
         case .finished:
