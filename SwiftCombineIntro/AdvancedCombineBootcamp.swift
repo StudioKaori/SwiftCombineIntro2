@@ -49,7 +49,10 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
 
     dataService.passThroughPublisher
     // When is the last publisher?? -> need completion to know the last publisher
-      .last()
+    //  .last()
+    
+    // This case the result will be 3, but the need to wait until receiving completion .finish (This case 10 secs)
+      .last(where: { $0 < 4 })
     
     // convert Int to String
       .map({ String($0) })
