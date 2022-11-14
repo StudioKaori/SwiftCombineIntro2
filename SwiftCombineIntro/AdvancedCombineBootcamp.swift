@@ -11,7 +11,9 @@ import Combine
 // this class would not to be observable
 class AdvancedCombineDataService {
   
-  @Published var basicPublisher: String = ""
+  // @Published var basicPublisher: String = "first publish"
+  // CurrentValueSubject(publisher)<Type, Error>(String) <- initialise it with parenthese, should have a default value
+  let currentValuePublisher = CurrentValueSubject<String, Never>("first publish")
   
   init() {
     publishFakeData()
@@ -23,7 +25,8 @@ class AdvancedCombineDataService {
     for x in items.indices {
       // publishers will stay alive until we cancel them!
       DispatchQueue.main.asyncAfter(deadline: .now() + Double(x)) {
-        self.basicPublisher = items[x]
+        //self.basicPublisher = items[x]
+        self.currentValuePublisher.send(items[x])
       }
     }
   }
@@ -42,7 +45,9 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
   }
   
   private func addSubscribers() {
-    dataService.$basicPublisher
+    // Subscribe publisher
+    //dataService.$basicPublisher
+    dataService.currentValuePublisher
       .sink(receiveCompletion: { completion in
         switch completion {
         case .finished:
