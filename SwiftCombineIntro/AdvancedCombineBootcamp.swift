@@ -52,7 +52,20 @@ class AdvancedCombineBootcampViewModel: ObservableObject {
     //  .last()
     
     // This case the result will be 3, but the need to wait until receiving completion .finish (This case 10 secs)
-      .last(where: { $0 < 4 })
+    //  .last(where: { $0 < 4 })
+    
+    // Handle error
+    // Unlike tryFirst, this case the error occurs even int > 1 comes first.
+//      .tryLast(where: { int in
+//        if int == 3 {
+//          throw URLError(.badServerResponse)
+//        }
+//        return int > 1
+//      })
+    
+    // Did the video until tryLast
+    // https://www.youtube.com/watch?v=RUZcs0SWqnI&t=1203s
+    // Next topic is 35:58, dropFirst
     
     // convert Int to String
       .map({ String($0) })
